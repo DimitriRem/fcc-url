@@ -28,8 +28,26 @@ let shortUrlList = [
   "nada",
 ];
 
+function checkUrl (string) {
+  let givenURL ;
+  try {
+      givenURL = new URL (string);
+  } catch (error) {
+      console.log ("error is", error);
+     return res.json({ error: 'invalid url' }); 
+  }
+  return true;
+}
+
 
 app.post('/api/shorturl', function(req, res) {  
+  let givenURL ;
+  try {
+    givenURL = new URL (req.body.url);
+} catch (error) {
+  console.log ("error is", error);
+ return res.json({ error: 'invalid url' }); 
+}
   const shortcode=shortUrlList.length;
   shortUrlList.push(req.body.url);
   res.json({original_url: req.body.url, short_url: shortcode})
