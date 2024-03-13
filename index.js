@@ -29,31 +29,28 @@ let shortUrlList = [
   "nada",
 ];
 
-const options = { 
-  all:true, 
-}; 
-
 app.post('/api/shorturl', function(req, res) {  
   let givenURL = "";
-  let isValid=false;  
+  let isValid=true;  
   try {
     givenURL = new URL (req.body.url);
 } catch (error) {
-  console.log ("error is", error);
+  console.log ("01 error is", error);
  return res.json({ error: 'invalid url' }); 
 }
   const domain = givenURL.hostname;
-  dns.lookup(domain, options, (err, address) =>
+  dns.lookup(domain, (err, url_Ip) =>
   {
     if (err) {
-      console.log(err);
+      console.log("02"+err);
       return res.json({ error: 'invalid url' });
     } else {
-      console.log("OK"+address);
+      console.log("OK"+url_Ip);
       isValid=true;
     }
   }
   )
+  console.log("03"+isValid);
 if (isValid) {
   const shortcode=shortUrlList.length;
   shortUrlList.push(req.body.url);
